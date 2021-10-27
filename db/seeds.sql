@@ -1,15 +1,16 @@
-USE business_db;
+USE my_business;
+SET FOREIGN_KEY_CHECKS=0;
 
-INSET INTO departments(name)
+INSERT INTO departments(department_name)
 VALUES 
 ("Operations"),
 ("Engineering"),
 ("Product Management"),
 ("Design");
 
-INSERT INTO roles(title,salary,deparment_id)
+INSERT INTO roles(title,salary,department_id)
 VALUES
-    ("Operations Director",100000.00,1,),
+    ("Operations Director",100000.00,1),
     ("Operations Specialist",45000.00,1),
 
     ("Engineering Director",200000.00,2),
@@ -22,14 +23,12 @@ VALUES
     ("UI/UX Designer",100000.00,4);
 INSERT INTO employees(first_name, last_name, role_id, manager_id)
     VALUES
-    ("Luke", "Skywalker", 5),
-    ("Darth", "Vader", 2),
-    ("Master", "Yoda", 3),
-    ("Ahsoka", "Tano", 4),
-    ("Din", "Djarin", 3),
-    ("Boba", "Fett", 4),
-    ("Leia", "Skywalker", 7),
-    ("Artoo", "Deeto", 6),
-    ("Han", "Solo", 3),
-    ("Obi-Wan", "Kenobi", 4);
+    ("Luke", "Skywalker", 1, NULL),
+    ("Darth", "Vader", 2, 1),
+    ("Boba", "Fett", 4, NULL),
+    ("Din", "Djarin", 3, 2),
+    ("Princess", "Leia", 7, 3),
+    ("Han", "Solo", 3, NULL),
+    ("Artoo", "Deeto", 6, NULL),
+    ("Obi-Wan", "Kenobi", 4, 4);
   

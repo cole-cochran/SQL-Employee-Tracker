@@ -1,30 +1,36 @@
-DROP DATABASE IF EXISTS my_business;
-CREATE DATABASE my_business;
+DROP DATABASE my_business;
+CREATE DATABASE IF NOT EXISTS my_business; 
 
-USE business_db;
+USE my_business;
 
-CREATE TABLE departments(
-    id INT AUTO_INCREMENT,
-    name VARCHAR(100) NOT NULL,
-        PRIMARY KEY(id),
+DROP TABLE IF EXISTS departments;
+CREATE TABLE departments (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    department_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE roles(
-    id INT AUTO_INCREMENT,
+DROP TABLE IF EXISTS roles;
+CREATE TABLE roles (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     title VARCHAR(100) NOT NULL,
-    salary DECIMAL NOT NULL, 
-        PRIMARY KEY(id),
-            FOREIGN KEY(departments_id),
-            REFERENCES departments(id),
-ON DELETE SET NULL
+    salary DECIMAL,
+    department_id INT,
+    FOREIGN KEY (department_id)
+    REFERENCES departments(id)
+    ON DELETE SET NULL
 );
 
-CREATE TABLE employees(
-    id INT NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS employees;
+CREATE TABLE employees (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100) NOT NULL,
     role_id INT,
-            FOREIGN KEY(departments_id),
-            REFERENCES departments(id),
-ON DELETE SET NULL
+    manager_id INT,
+    FOREIGN KEY (role_id)
+    REFERENCES roles(id)
+    ON DELETE SET NULL,
+    FOREIGN KEY (manager_id)
+    REFERENCES employees(id)
+    ON DELETE SET NULL
 );
