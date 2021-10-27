@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
-const consoleTable = require("console.table");
+// const consoleTable = require("console.table");
 
 const db = mysql.createConnection(
   {
@@ -16,20 +16,20 @@ function init() {
     .prompt([
       {
         type: "list",
-        message: "CHOOSE OPTION BELOW",
+        mesage: "CHOOSE OPTION BELOW",
         name: "options",
         choices: [
           "View All Employees",
           "View All Roles",
           "View All Departments",
-          "Add New Employee",
+          "Add New Employees",
           "Add New Roles",
-          "Add New Department",
+          "Add New Departments",
           "Delete Roles",
-          "Delete Employee",
-          "Delete Department",
-          "Update Employee Role",
-          "Update Employee Manager",
+          "Delete Employees",
+          "Delete Departments",
+          "Update Employees Roles",
+          "Update Employees Manager",
           "Exit",
         ],
       },
@@ -38,37 +38,37 @@ function init() {
     .then((answers) => {
       switch (answers.options) {
         case "View All Employees":
-          viewEmployee();
+          viewEmployees();
           break;
         case "View All Roles":
           viewRoles();
           break;
         case "View All Departments":
-          viewDepartment();
+          viewDepartments();
           break;
-        case "Add New Employee":
-          addEmployee();
+        case "Add New Employees":
+          addEmployees();
           break;
         case "Add New Roles":
-          addRole();
+          addRoles();
           break;
-        case "Add New Department":
-          addDepartment();
+        case "Add New Departments":
+          addDepartments();
           break;
-        case "Delete Employee":
-          deleteEmployee();
+        case "Delete Employees":
+          deleteEmployees();
           break;
-        case "Delete Role":
-          deleteRole();
+        case "Delete Roles":
+          deleteRoles();
         break;
-        case "Delete Department":
-          deleteDepartment();
+        case "Delete Departments":
+          deleteDepartments();
           break;
-        case "Update Employee Role":
-          updateEmployeeRole();
+        case "Update Employees Roles":
+          updateEmployeesRoles();
           break;
-        case "Update Employee Manager":
-          updateEmployeeManager();
+        case "Update Employees Manager":
+          updateEmployeesManager();
           break;
         case "Exit":
           db.end();
@@ -77,19 +77,37 @@ function init() {
           console.log("Inquirer is firing");
       }
     });
-}
+};
 
-function viewEmployee()
-function viewRoles()
-function viewDepartment()
-function addEmployee()
-function addRole()
-function addDepartment()
-function deleteEmployee()
-function deleteRole()
-function deleteDepartment()
-function updateEmployeeRole()
-function updateEmployeeManager()
+function viewEmployees(){
+    db.query('SELECT employees.id, employees.first_name, employees.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employees_role ON employees.id = employees_role.id JOIN employees e ON e.id = employees.manager_id JOIN department WHERE departments_id = departments.id ORDER BY employees.id',
+    (err,res)=>{  return res ? console.table(res)
+        :console.log(err,'EMPLOYEES IS BROKEN')
+    }
+    )
+};
+function viewRoles(){
+    db.query('SELECT employees.id, employees.first_name, employees.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employees_role ON employees.id = employees_role.id JOIN employees e ON e.id = employees.manager_id JOIN department WHERE departments_id = departments.id ORDER BY employees.id',
+    (err,res)=>{  return res ? console.table(res)
+        :console.log(err,'ROLES IS BROKEN')
+}
+)
+};
+function viewDepartments(){
+    db.query('SELECT * FROM my_business.departments;',
+    (err,res)=>{  return res ? console.table(res)
+        :console.log(err,'DEPARTMENTS IS BROKEN')
+    }
+    )
+}
+// function addEmployees()
+// function addRoles()
+// function addDepartments()
+// function deleteEmployees()
+// function deleteRoles()
+// function deleteDepartments()
+// function updateEmployeesRoles()
+// function updateEmployeesManager()
 
 
 init();
