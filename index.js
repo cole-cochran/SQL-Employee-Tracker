@@ -112,8 +112,49 @@ async function viewDepartments(){
     )
     init();
 };
-// function addEmployees()
-// function addRoles()
+async function addRoles(){
+    db.query('SELECT id FROM my_business.departments',(err,res)=>{
+        if(err){
+            console.log(err)
+          }else{
+            let departmentArr=[]
+            for(i=0; i < res.length; i++){
+              departmentArr.push(res[i].id)
+            }
+            inquirer
+                .prompt([
+                {type:'input',
+                 name:'Role',
+                 message:'Enter new Employee Role'
+              },{
+                type:'input',
+                name:'Salary',
+                message:'Enter the Salary'
+              },{
+                type:'list',
+                name:'dept',
+                message:'Choose Department by ID',
+                choices:departmentArr
+              }
+        ])
+        // .then((option)=>{
+        //     db.query(`INSERT INTO roles (title,salary,department_id) VALUES ("${option.title}" , ${option.salary} , ${option.dept})`,(err,res)=>{
+        //       if(err){
+               
+        //       }else{
+        //       db.query('SELECT * FROM role',(err,res)=>{
+        //         return res ?  console.table(res)
+               
+              
+              
+        //     }
+        //     )
+        //     init();
+    //       })
+    //   }
+    // })   
+    }
+
 // function addDepartments()
 // function deleteEmployees()
 // function deleteRoles()
