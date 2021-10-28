@@ -1,6 +1,5 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
-// const consoleTable = require("console.table");
 
 const db = mysql.createConnection(
   {
@@ -79,27 +78,30 @@ function init() {
     });
 };
 
-function viewEmployees(){
-    db.query('SELECT employees.id, employees.first_name, employees.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employees_role ON employees.id = employees_role.id JOIN employees e ON e.id = employees.manager_id JOIN department WHERE departments_id = departments.id ORDER BY employees.id',
+async function viewEmployees(){
+    db.query('SELECT employees.id AS "employees ID", concat(employees.first_name,"  ",employees.last_name ) AS "employees Name" , roles.title AS "Title", roles.salary AS "roles Salary" ,department_name AS "departments Name" ,concat(manager.first_name,"  ",manager.last_name) AS "Manager Name" FROM my_business.employees AS employees LEFT JOIN my_business.employees AS manager ON manager.id=employees.manager_id LEFT JOIN my_business.roles AS roles ON employees.role_id=roles.id LEFT JOIN my_business.departments AS dept ON dept.id = roles.department_id',
     (err,res)=>{  return res ? console.table(res)
         :console.log(err,'EMPLOYEES IS BROKEN')
     }
     )
+    init();
 };
-function viewRoles(){
-    db.query('SELECT employees.id, employees.first_name, employees.last_name, e.first_name as manager_first_name, e.last_name AS manager_last_name, title, salary, department.name AS department_name FROM employee JOIN employees_role ON employees.id = employees_role.id JOIN employees e ON e.id = employees.manager_id JOIN department WHERE departments_id = departments.id ORDER BY employees.id',
+async function viewRoles(){
+    db.query('SELECT roles.title AS "title", roles.salary AS "salary", department_name AS "departments name" FROM roles roles LEFT JOIN departments AS departments ON departments.id = roles.department_id',
     (err,res)=>{  return res ? console.table(res)
         :console.log(err,'ROLES IS BROKEN')
 }
 )
+    init();
 };
-function viewDepartments(){
+async function viewDepartments(){
     db.query('SELECT * FROM my_business.departments;',
     (err,res)=>{  return res ? console.table(res)
         :console.log(err,'DEPARTMENTS IS BROKEN')
     }
     )
-}
+    init();
+};
 // function addEmployees()
 // function addRoles()
 // function addDepartments()
@@ -108,6 +110,5 @@ function viewDepartments(){
 // function deleteDepartments()
 // function updateEmployeesRoles()
 // function updateEmployeesManager()
-
 
 init();
