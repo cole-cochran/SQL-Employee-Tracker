@@ -33,51 +33,61 @@ function init() {
         ],
       },
     ])
-
     .then((answers) => {
       switch (answers.options) {
         case "View All Employees":
           viewEmployees();
+          console.log("\n");
           break;
         case "View All Roles":
           viewRoles();
+          console.log("\n");
           break;
         case "View All Departments":
           viewDepartments();
+          console.log("\n");
           break;
         case "Add New Employees":
           addEmployees();
+          console.log("\n");
           break;
         case "Add New Roles":
           addRoles();
+          console.log("\n");
           break;
         case "Add New Departments":
           addDepartments();
+          console.log("\n");
           break;
         case "Delete Employees":
           deleteEmployees();
+          console.log("\n");
           break;
         case "Delete Roles":
           deleteRoles();
+          console.log("\n");
         break;
         case "Delete Departments":
           deleteDepartments();
+          console.log("\n");
           break;
         case "Update Employees Roles":
           updateEmployeesRoles();
+          console.log("\n");
           break;
         case "Update Employees Manager":
           updateEmployeesManager();
+          console.log("\n");
           break;
         case "Exit":
           db.end();
           break;
         default:
-          console.log("Inquirer is firing");
+          console.log();
       }
     });
 };
-
+console.log("Inquirer is firing");
 async function viewEmployees(){
     db.query('SELECT employees.id AS "employees ID", concat(employees.first_name,"  ",employees.last_name ) AS "employees Name" , roles.title AS "Title", roles.salary AS "roles Salary" ,department_name AS "departments Name" ,concat(manager.first_name,"  ",manager.last_name) AS "Manager Name" FROM my_business.employees AS employees LEFT JOIN my_business.employees AS manager ON manager.id=employees.manager_id LEFT JOIN my_business.roles AS roles ON employees.role_id=roles.id LEFT JOIN my_business.departments AS dept ON dept.id = roles.department_id',
     (err,res)=>{  return res ? console.table(res)
