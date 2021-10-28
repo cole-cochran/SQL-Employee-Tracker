@@ -15,21 +15,16 @@ function init() {
     .prompt([
       {
         type: "list",
-        mesage: "CHOOSE OPTION BELOW",
+        message: "CHOOSE OPTION BELOW",
         name: "options",
         choices: [
           "View All Employees",
           "View All Roles",
           "View All Departments",
-          "Add New Employees",
           "Add New Roles",
           "Add New Departments",
-          "Delete Roles",
-          "Delete Employees",
-          "Delete Departments",
-          "Update Employees Roles",
-          "Update Employees Manager",
           "Exit",
+          new inquirer.Separator()
         ],
       },
     ])
@@ -47,36 +42,12 @@ function init() {
           viewDepartments();
           console.log("\n");
           break;
-        case "Add New Employees":
-          addEmployees();
-          console.log("\n");
-          break;
         case "Add New Roles":
           addRoles();
           console.log("\n");
           break;
         case "Add New Departments":
           addDepartments();
-          console.log("\n");
-          break;
-        case "Delete Employees":
-          deleteEmployees();
-          console.log("\n");
-          break;
-        case "Delete Roles":
-          deleteRoles();
-          console.log("\n");
-        break;
-        case "Delete Departments":
-          deleteDepartments();
-          console.log("\n");
-          break;
-        case "Update Employees Roles":
-          updateEmployeesRoles();
-          console.log("\n");
-          break;
-        case "Update Employees Manager":
-          updateEmployeesManager();
           console.log("\n");
           break;
         case "Exit":
@@ -154,8 +125,31 @@ async function addRoles(){
     })
 }
 })   
+};
+
+async function addDepartments(){
+  inquirer.prompt([
+    {
+      type:'input',
+      name:'department',
+      description:'New Department Name'
+  }
+  ]).then(option =>{
+    db.query('INSERT INTO departments SET?', 
+    {department_name:option.department},(err,res)=>{
+      if(err){
+        console.log(err)
+      }else{
+        db.query('SELECT * FROM departments',(err,res)=>{
+        return res ?  console.table(res)
+        : console.log(err)
+        }
+      )
+      init();
+      }
+     }
+    )
+   }
+  )
 }
-
-function addDepartments()
-
 init();
