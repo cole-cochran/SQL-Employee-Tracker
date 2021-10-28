@@ -83,7 +83,7 @@ function init() {
           db.end();
           break;
         default:
-          console.log();
+
       }
     });
 };
@@ -124,42 +124,38 @@ async function addRoles(){
             inquirer
                 .prompt([
                 {type:'input',
-                 name:'Role',
+                 name:'title',
                  message:'Enter new Employee Role'
               },{
                 type:'input',
-                name:'Salary',
+                name:'salary',
                 message:'Enter the Salary'
               },{
                 type:'list',
-                name:'dept',
+                name:'department',
                 message:'Choose Department by ID',
                 choices:departmentArr
               }
         ])
-        // .then((option)=>{
-        //     db.query(`INSERT INTO roles (title,salary,department_id) VALUES ("${option.title}" , ${option.salary} , ${option.dept})`,(err,res)=>{
-        //       if(err){
-               
-        //       }else{
-        //       db.query('SELECT * FROM role',(err,res)=>{
-        //         return res ?  console.table(res)
-               
-              
-              
-        //     }
-        //     )
-        //     init();
-    //       })
-    //   }
-    // })   
-    }
+        .then((option)=>{
+            db.query(`INSERT INTO roles (title,salary,department_id) VALUES (${option.title} , ${option.salary} , ${option.department})`,(err,res)=>{
+              if(err){
+                console.log(err)
+              }else{
+              db.query('SELECT * FROM roles',(err,res)=>{
+                return res ?  console.table(res)
+                : console.log(err)
+            }
+        )
+        }
+      }
+      )
+      init();
+    })
+}
+})   
+}
 
-// function addDepartments()
-// function deleteEmployees()
-// function deleteRoles()
-// function deleteDepartments()
-// function updateEmployeesRoles()
-// function updateEmployeesManager()
+function addDepartments()
 
 init();
