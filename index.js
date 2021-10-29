@@ -109,19 +109,19 @@ async function addRoles(){
               }
         ])
         .then((option)=>{
-            db.query(`INSERT INTO roles (title,salary,department_id) VALUES (${option.title} , ${option.salary} , ${option.department})`,(err,res)=>{
-              if(err){
-                console.log(err)
-              }else{
-              db.query('SELECT * FROM roles',(err,res)=>{
-                return res ?  console.table(res)
-                : console.log(err)
-            }
-        )
-        }
-      }
+          db.query(`INSERT INTO roles (title,salary,department_id) VALUES ("${option.title}" , ${option.salary} , ${option.department})`,(err,res)=>{
+            if(err){
+              console.log(err)
+            }else{
+            db.query('SELECT * FROM roles',(err,res)=>{
+              return res ?  console.table(res)
+              : console.log(err)
+          }
       )
-      init();
+      }
+    }
+    )
+    init();
     })
 }
 })   
